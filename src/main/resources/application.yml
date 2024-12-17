@@ -1,0 +1,77 @@
+debug: false
+
+################## [SERVER] #################
+server:
+  port: ${SERVER_PORT}
+  compression:
+    enabled: true
+  servlet:
+    context-path: ${SERVER_CONTEXT}
+    
+################## [SPRING] #################
+spring:
+
+  main:
+    banner-mode: console
+    log-startup-info: true
+
+  devtools:
+    restart:
+      enabled: false
+      
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: -1
+      max-request-size: -1
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
+    
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO} 
+    generate-ddl: ${SPRING_JPA_GENERATE_DDL}
+    show-sql: ${SPRING_JPA_SHOW_SQL}
+    properties:
+      hibernate:
+        format_sql: ${SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL}
+        dialect: ${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT}
+        use_sql_comments: false
+        connection.charSet: UTF-8
+        types.print.banner: false
+        
+################## [LOGGING] #################
+logging:
+  level:
+    root: DEBUG
+    com.prosigliere.challenge: ERROR
+    javax.activation: OFF
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+    io.swagger.models.parameters.AbstractSerializableParameter: WARN
+    io.swagger.models.parameters: ERROR
+    org.springframework.core.env.PropertySourcesPropertyResolver: ERROR
+    org.springframework.boot.context.config.ConfigFileApplicationListener: OFF
+    org.springframework.orm.jpa.JpaTransactionManager: WARN
+    org.postgresql.jdbc.PgConnection: WARN
+    
+    javax.xml.bind: OFF
+    com:
+      zaxxer:
+        hikari: OFF
+      fasterxml:
+        jackson:
+          databind: WARN
+    org:
+      postgresql: WARN
+      apache: WARN
+      hibernate: ERROR
+      springframework: ERROR
+      
+      
+################## [SWAGGER] #################
+application-description: Backend API
+application-version: '@project.version@'

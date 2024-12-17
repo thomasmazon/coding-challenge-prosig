@@ -1,0 +1,70 @@
+debug: false
+
+################## [SERVER] #################
+server:
+  port: ${SERVER_PORT:8080}
+  compression:
+    enabled: true
+  servlet:
+    context-path: ${SERVER_CONTEXT:/api}
+    
+################## [SPRING] #################
+spring:
+
+  main:
+    banner-mode: console
+    log-startup-info: true
+
+  devtools:
+    restart:
+      enabled: true
+      
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: -1
+      max-request-size: -1
+
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/challenge-prosig
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
+    
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update} # none / update / create / create-drop / validate
+    generate-ddl: ${SPRING_JPA_GENERATE_DDL:true}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
+    properties:
+      hibernate:
+        format_sql: ${SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL:true}
+        dialect: ${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
+        
+        
+################## [LOGGING] #################
+logging:
+  level:
+    root: DEBUG
+    com.prosigliere.challenge: DEBUG
+    javax.activation: OFF
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+    io.swagger.models.parameters.AbstractSerializableParameter: WARN
+    io.swagger.models.parameters: ERROR
+    org.springframework.core.env.PropertySourcesPropertyResolver: ERROR
+    org.springframework.boot.context.config.ConfigFileApplicationListener: OFF
+    org.springframework.orm.jpa.JpaTransactionManager: WARN
+    org.postgresql.jdbc.PgConnection: WARN
+    
+    javax.xml.bind: OFF
+    com:
+      zaxxer:
+        hikari: OFF
+      fasterxml:
+        jackson:
+          databind: WARN
+    org:
+      postgresql: WARN
+      apache: WARN
+      hibernate: ERROR
+      springframework: ERROR

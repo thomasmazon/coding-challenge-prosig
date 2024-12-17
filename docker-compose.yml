@@ -1,0 +1,48 @@
+version: '3.8'
+
+networks:
+  prosigliere_challenge_network:
+    driver: bridge  
+
+services:
+  challenge_server:
+    restart: unless-stopped
+    image: 'prosigliere-challenge-server:latest'
+    container_name: prosigliere-challenge-server
+    build:
+      context: .
+    networks:
+      - prosigliere_challenge_network
+    depends_on:
+      - postgres_db
+    environment:
+      - POSTGRES_USER=$YOUR_USERNAME
+      - POSTGRES_PASSWORD=$YOUR_PASSWORD
+      - SPRING_DATASOURCE_HOST=postgres_db
+      - SPRING_DATASOURCE_PORT=5432
+      - SPRING_DATASOURCE_SCHEMA=challenge
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${SPRING_DATASOURCE_HOST}:${SPRING_DATASOURCE_PORT}/${SPRING_DATASOURCE_SCHEMA}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_GENERATE_DDL=update
+      - SPRING_JPA_SHOW_SQL=update
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: true
+
+    ports:
+      - "6868:8080"
+
+  postgres_db:
+    restart: unless-stopped
+    image: postgres
+    container_name: prosigliere-challenge-db
+    networks:
+      - prosigliere_challenge_network
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=challenge
+    ports:
+      - "5433:5432"
